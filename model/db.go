@@ -14,11 +14,11 @@ var Db *gorm.DB
 
 func InitDB() {
 
-	username := core.Global.Config.Get("database.username")
-	password := core.Global.Config.Get("database.password")
-	host := core.Global.Config.Get("database.host")
-	port := core.Global.Config.Get("database.port")
-	dbname := core.Global.Config.Get("database.dbname")
+	username := core.Config.DataBase.Username
+	password := core.Config.DataBase.Password
+	host := core.Config.DataBase.Host
+	port := core.Config.DataBase.Port
+	dbname := core.Config.DataBase.Dbname
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", username, password, host, port, dbname)
 

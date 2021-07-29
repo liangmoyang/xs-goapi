@@ -11,7 +11,7 @@ import (
 func main() {
 
 	// 初始化Viper读取配置文件
-	core.Global.Config = core.NewViper()
+	core.Global.Viper = core.NewViper()
 
 	// 启动mongo
 	mgCtx, cancelMg := context.WithCancel(context.Background())

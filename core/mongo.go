@@ -4,21 +4,21 @@ import (
 	"context"
 	"fmt"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/mongo"
+	mongoDB "go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"log"
 )
 
-func NewMongoLog(ctx context.Context) *mongo.Database {
+func NewMongoLog(ctx context.Context) *mongoDB.Database {
 
-	host := Global.Config.Get("mongo.host")
-	port := Global.Config.Get("mongo.port")
-	dbname := Global.Config.Get("mongo.log_dbname")
+	host := Config.Mongo.Host
+	port := Config.Mongo.Port
+	dbname := Config.Mongo.LogDbname
 
 	uri := fmt.Sprintf("mongodb://%s:%s", host, port)
 
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+	client, err := mongoDB.Connect(ctx, options.Client().ApplyURI(uri))
 	if err != nil {
 		panic(errors.New("MongoDB连接失败：" + err.Error()))
 	}
@@ -26,7 +26,7 @@ func NewMongoLog(ctx context.Context) *mongo.Database {
 		panic(errors.New("MongoDB连接接失败：" + err.Error()))
 	}
 
-	db := client.Database(dbname.(string))
+	db := client.Database(dbname)
 	log.Println("MongoDB连接成功")
 
 	return db

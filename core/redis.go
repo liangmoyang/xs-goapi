@@ -9,10 +9,10 @@ import (
 
 func NewRedis(ctx context.Context) *redis.Client {
 
-	host := Global.Config.GetString("redis.host")
-	port := Global.Config.GetString("redis.port")
-	password := Global.Config.GetString("redis.password")
-	db := Global.Config.GetInt("redis.db")
+	host := Config.Redis.Host
+	port := Config.Redis.Port
+	password := Config.Redis.Password
+	db := Config.Redis.DB
 
 	client := redis.NewClient(&redis.Options{
 		Addr:     host + ":" + port,
