@@ -1,5 +1,6 @@
 app:
-  debounce: 1
+  port: "9595"  # 程序启动端口
+  debounce: 1   #是否开启请求防抖，依赖于redis
 
 database:
   host: "127.0.0.1"
