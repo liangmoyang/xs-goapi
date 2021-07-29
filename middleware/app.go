@@ -31,21 +31,23 @@ func App() gin.HandlerFunc {
 			}
 		}()
 
-		// 后端防抖
-		ip := c.Request.Header.Get("X-real-ip")
-		if ip == "" {
-			ip = c.ClientIP()
-		}
+		fmt.Println(core.Config.App.Debounce)
+		if core.Config.App.Debounce == 1 && core.Global.Redis != nil {
+			// 后端防抖
+			ip := c.Request.Header.Get("X-real-ip")
+			if ip == "" {
+				ip = c.ClientIP()
+			}
 
-		key := ip + c.Request.URL.Path
-		_, err := core.Global.Redis.Get(c, key).Result()
-		if err == nil {
-			c.JSON(200, gin.H{"code": http.StatusForbidden, "msg": "重复请求"})
-			c.Abort()
-		} else {
-			err := core.Global.Redis.Set(c, key, time.Now(), 200*time.Millisecond).Err()
-			if err != nil {
-				fmt.Println("MiddleWare - app.go - Redis设置值失败，防抖失效")
+			key := ip + c.Request.URL.Path
+			_, err := core.Global.Redis.Get(c, key).Result()
+			if err == nil {
+				c.JSON(http.StatusOK, gin.H{"code": http.StatusForbidden, "msg": "重复请求"})
+				c.Abort()
+			} else {
+				if core.Global.Redis.Set(c, key, time.Now(), 200*time.Millisecond).Err() != nil {
+					fmt.Println("MiddleWare - app.go - Redis设置值失败，防抖失效")
+				}
 			}
 		}
 

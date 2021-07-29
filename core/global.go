@@ -18,9 +18,15 @@ var (
 )
 
 type config struct {
+	App      app
 	DataBase database
 	Mongo    mg
 	Redis    rds
+}
+
+// App的应用配置
+type app struct {
+	Debounce int
 }
 
 // MySql
