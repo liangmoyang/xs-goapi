@@ -10,6 +10,9 @@ import (
 
 func main() {
 
+	// 初始化Viper读取配置文件
+	core.Global.Config = core.NewViper()
+
 	// 启动mongo
 	mgCtx, cancelMg := context.WithCancel(context.Background())
 	defer cancelMg()
@@ -20,6 +23,7 @@ func main() {
 	defer cancelRds()
 	core.Global.Redis = core.NewRedis(rdsCtx)
 
+	model.InitDB()
 	// 程序结束前关闭数据库连接
 	db, _ := model.Db.DB()
 	defer db.Close()

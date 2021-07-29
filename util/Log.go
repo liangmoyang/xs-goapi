@@ -33,7 +33,7 @@ func ErrorFormatString(err interface{}) string {
 // AppLog 写入App日志到Mongo
 func AppLog(logText ...string) {
 
-	collection := core.Global.LogDB().Collection("app_log")
+	collection := core.Global.Mongo.Collection("app_log")
 
 	appLog := new(appLog)
 	appLog.Time = time.Now().Format("2006-01-02 15:04:05")
@@ -68,7 +68,7 @@ type errLog struct {
 
 // ErrLog 记录错误日志到Mongo
 func ErrLog(c *gin.Context, logText string) (err error) {
-	collection := core.Global.LogDB().Collection("err_log")
+	collection := core.Global.Mongo.Collection("err_log")
 
 	pc, fileInfo, line, _ := runtime.Caller(3)
 	f := runtime.FuncForPC(pc)

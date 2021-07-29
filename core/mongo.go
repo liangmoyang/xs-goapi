@@ -12,9 +12,9 @@ import (
 
 func NewMongoLog(ctx context.Context) *mongo.Database {
 
-	host := AppConfig.Get("mongo.host")
-	port := AppConfig.Get("mongo.port")
-	dbname := AppConfig.Get("mongo.log_dbname")
+	host := Global.Config.Get("mongo.host")
+	port := Global.Config.Get("mongo.port")
+	dbname := Global.Config.Get("mongo.log_dbname")
 
 	uri := fmt.Sprintf("mongodb://%s:%s", host, port)
 

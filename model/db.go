@@ -12,13 +12,13 @@ import (
 
 var Db *gorm.DB
 
-func init() {
+func InitDB() {
 
-	username := core.AppConfig.Get("database.username")
-	password := core.AppConfig.Get("database.password")
-	host := core.AppConfig.Get("database.host")
-	port := core.AppConfig.Get("database.port")
-	dbname := core.AppConfig.Get("database.dbname")
+	username := core.Global.Config.Get("database.username")
+	password := core.Global.Config.Get("database.password")
+	host := core.Global.Config.Get("database.host")
+	port := core.Global.Config.Get("database.port")
+	dbname := core.Global.Config.Get("database.dbname")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", username, password, host, port, dbname)
 
@@ -45,5 +45,4 @@ func init() {
 	Db = db
 
 	log.Println("MySql数据库初始化连接成功")
-
 }

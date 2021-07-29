@@ -4,10 +4,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var AppConfig *viper.Viper
-
-func init() {
-
+func NewViper() *viper.Viper {
 	v := viper.New()
 	v.SetConfigFile("config/app.yml")
 
@@ -15,5 +12,5 @@ func init() {
 		panic(err)
 	}
 
-	AppConfig = v
+	return v
 }
