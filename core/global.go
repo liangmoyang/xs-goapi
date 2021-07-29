@@ -40,9 +40,9 @@ type database struct {
 
 // Mongo
 type mg struct {
-	Host      string
-	Port      string
-	LogDbname string
+	Host  string
+	Port  string
+	LogDb string
 }
 
 // Redis

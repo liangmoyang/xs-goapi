@@ -14,7 +14,7 @@ func NewMongoLog(ctx context.Context) *mongoDB.Database {
 
 	host := Config.Mongo.Host
 	port := Config.Mongo.Port
-	dbname := Config.Mongo.LogDbname
+	dbname := Config.Mongo.LogDb
 
 	uri := fmt.Sprintf("mongodb://%s:%s", host, port)
 
