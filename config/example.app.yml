@@ -1,0 +1,17 @@
+database:
+  host: "127.0.0.1"
+  port: "3306"
+  dbname: "dbname"
+  username: "username"
+  password: "password"
+
+mongo:
+  host: "127.0.0.1"
+  port: "27017"
+  log_dbname: "log"
+
+redis:
+  host: "127.0.0.1"
+  port: "6379"
+  password: ""
+  db : 11

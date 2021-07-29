@@ -15,3 +15,8 @@
 # vendor/
 
 /.idea
+
+
+/config/app.yml
+/tmp
+/log/*
