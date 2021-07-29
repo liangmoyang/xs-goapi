@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-type log struct {
+type logParams struct {
 	Time      string
 	Ip        string
 	Status    int
@@ -40,7 +40,7 @@ func Log() gin.HandlerFunc {
 
 		collection := core.Global.Mongo.Collection("api_log")
 
-		_, err := collection.InsertOne(ctx, log{
+		_, err := collection.InsertOne(ctx, logParams{
 			time.Now().Format("2006-01-02 15:04:05"),
 			ctx.Request.Header.Get("X-real-ip"),
 			ctx.Writer.Status(),
