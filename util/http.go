@@ -5,30 +5,60 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
-// PostStruct application/json
-func PostStruct(url string, data interface{}) (b []byte, err error) {
+func Get(cUrl string, params url.Values, headers map[string]string) (b []byte, err error) {
+
+	req, err := http.NewRequest("GET", cUrl, nil)
+	if err != nil {
+		return
+	}
+
+	req.URL.RawQuery = params.Encode()
+
+	return exec(req, headers)
+}
+
+// PostJson application/json
+func PostJson(url string, data interface{}, headers map[string]string) (b []byte, err error) {
 
 	jsonStr, err := json.Marshal(data)
 	if err != nil {
 		return
 	}
 
-	return Post(url, jsonStr, "application/json")
+	//Post的Content-Type默认值是application/x-www-form-urlencoded
+	if _, ok := headers["Content-Type"]; !ok {
+		if headers == nil {
+			headers = map[string]string{"Content-Type": "application/json"}
+		} else {
+			headers["Content-Type"] = "application/json"
+		}
+	}
+
+	return Post(url, jsonStr, headers)
 }
 
-func Post(url string, data []byte, contentType string) (b []byte, err error) {
+func Post(url string, data []byte, headers map[string]string) (b []byte, err error) {
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
 	if err != nil {
 		return
 	}
-	req.Header.Set("Content-Type", contentType)
+
+	return exec(req, headers)
+}
+
+func exec(request *http.Request, headers map[string]string) (b []byte, err error) {
+
+	// 遍历设置多个header
+	for k, v := range headers {
+		request.Header.Set(k, v)
+	}
 
 	client := &http.Client{}
-
-	rep, err := client.Do(req)
+	rep, err := client.Do(request)
 	if err != nil {
 		return
 	}
